@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>laigui</title>
+  </head>
+  <body style="display: flex; justify-content: center">
+    <style>
+      #double-rate-money {
+        margin: 10px;
+        padding: 40px;
+        width: 100%;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+        font-family: Montserrat;
+      }
+
+      #double-rate-money .head-title {
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 44px;
+        color: #344054;
+        margin-bottom: 40px;
+        font-family: Montserrat;
+      }
+
+      #double-rate-money .bold-title {
+        color: #344054;
+        font-family: Montserrat;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 44px; /* 137.5% */
+        letter-spacing: -0.16px;
+      }
+
+      #double-rate-money .wrapper-inner {
+        display: flex;
+        gap: 28px;
+      }
+
+      #double-rate-money .left-block {
+        display: flex;
+        width: 35%;
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        align-self: stretch;
+        border-radius: 16px;
+        background: #f9fafb;
+      }
+
+      #double-rate-money .right-block {
+        width: 65%;
+        flex-shrink: 0;
+        border-radius: 16px;
+        background: #fffbf1;
+        padding: 32px 24px;
+      }
+
+      #double-rate-money .input-control {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      #double-rate-money .input-control input {
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 6px;
+        border: #d0d5dd;
+        background: #fff;
+      }
+
+      #double-rate-money .input-control .label {
+        color: #344054;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+
+      #double-rate-money .select-control {
+        width: 100%;
+      }
+
+      #double-rate-money .select-control select {
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 6px;
+        border: #d0d5dd;
+        background: #fff;
+
+        width: 100%;
+      }
+
+      #double-rate-money .select-control .label {
+        color: #344054;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+
+      #double-rate-money .green-button {
+        display: flex;
+        padding: 12px 24px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 8px;
+        background: #00844a;
+        box-shadow: 0px 8px 24px 0px rgba(16, 151, 91, 0.25);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px; /* 150% */
+      }
+
+      #double-rate-money .green-txt {
+        color: #00844a;
+        /* Heading 2/Semibold */
+        font-family: Montserrat;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 28px; /* 140% */
+      }
+
+      #double-rate-money .m-b-10 {
+        margin-bottom: 10px;
+      }
+
+      #double-rate-money .m-b-20 {
+        margin-bottom: 20px;
+      }
+
+      #double-rate-money .content-block {
+        display: flex;
+        padding: 16px 12px;
+        gap: 4px;
+        flex-wrap: wrap;
+        border-radius: 10px;
+        border: 1px solid #fce197;
+        background: #fff8e5;
+
+        margin-bottom: 5px;
+        justify-content: space-between;
+      }
+
+      #double-rate-money .content-block .label {
+        color: #344054;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 26px;
+      }
+
+      #double-rate-money .content-block .text {
+        color: #344054;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px; /* 144.444% */
+      }
+
+      #double-rate-money .error-text {
+        margin-top: 5px;
+        font-size: 13px;
+        color: red;
+        font-style: italic;
+      }
+
+      #double-rate-money .d-none {
+        display: none;
+      }
+
+      #double-rate-money .two-col-wrapper {
+        width: 100%;
+      }
+
+      #double-rate-money .two-col-wrapper .label {
+        color: #344054;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+
+      #double-rate-money .two-col {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+      }
+
+      #double-rate-money .two-col > div {
+        width: 50%;
+      }
+
+      @media screen and (max-width: 768px) {
+        #double-rate-money .wrapper-inner {
+          flex-direction: column;
+        }
+
+        #double-rate-money {
+          padding: 10px;
+          margin: 5px;
+        }
+
+        #double-rate-money .left-block {
+          width: auto;
+          padding: 10px;
+        }
+
+        #double-rate-money .right-block {
+          width: auto;
+          padding: 10px;
+        }
+
+        #double-rate-money .head-title {
+          color: #344054;
+          text-align: center;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 32px;
+          letter-spacing: -0.12px;
+          margin-bottom: 20px;
+        }
+
+        #double-rate-money .green-txt {
+          font-size: 16px;
+        }
+
+        #double-rate-money .bold-title {
+          font-size: 24px;
+          line-height: 32px;
+        }
+
+        #double-rate-money .content-block {
+          padding: 12px;
+        }
+
+        #double-rate-money .content-block .label,
+        #double-rate-money .content-block .text {
+          font-size: 14px;
+        }
+      }
+    </style>
+
+    <div class="wrapper-content" id="double-rate-money">
+      <div class="head-title">Công Cụ Tính Lãi Suất Kép</div>
+      <div class="wrapper-inner">
+        <div class="left-block">
+          <div class="input-control">
+            <label class="label" for="">Số tiền gốc ban đầu (VND)</label>
+            <input
+              id="baseMoney"
+              type="text"
+              placeholder="20,000,000"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('baseMoney')"
+            />
+            <div id="baseMoney-error" class="error-text d-none">
+              Vui lòng nhập số tiền gốc ban đầu
+            </div>
+          </div>
+
+          <div class="input-control">
+            <label class="label" for="">Số tiền gửi mỗi kỳ (VND)</label>
+            <input
+              id="periodMoney"
+              type="text"
+              placeholder="20,000,000"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('periodMoney')"
+            />
+            <div id="periodMoney-error" class="error-text d-none">
+              Vui lòng nhập số tiền gửi mỗi kỳ
+            </div>
+          </div>
+
+          <div class="two-col-wrapper">
+            <div class="two-col">
+              <div class="input-control">
+                <label class="label" for="">Thời gian gửi (năm)</label>
+                <input
+                  id="period"
+                  type="text"
+                  placeholder="12"
+                  onkeypress="inputNumber(event)"
+                  onkeyup="numToCurrency('period')"
+                />
+                <div id="period-error" class="error-text period-error d-none">
+                  Vui lòng nhập thời gian gửi
+                </div>
+              </div>
+              <div class="input-control">
+                <label class="label" for="">Lãi suất (%/ năm)</label>
+                <input
+                  id="rate"
+                  type="text"
+                  placeholder="12"
+                  onkeypress="inputNumber(event)"
+                  onkeyup="numToCurrency('rate')"
+                />
+                <div id="rate-error" class="error-text d-none">
+                  Vui lòng nhập lãi suất
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="select-control">
+            <div class="label" for="">Định kỳ nhận lãi</div>
+            <select name="" id="periodRate">
+              <option value="1">Hàng năm</option>
+              <option value="4">Hàng quý</option>
+              <option value="12">Hàng tháng</option>
+              <option value="365">Hàng ngày</option>
+            </select>
+          </div>
+
+          <button class="green-button" onclick="calculateSavingMoney()">
+            <table></table>
+            Tính lãi kép
+          </button>
+        </div>
+        <div class="right-block">
+          <div class="green-txt">
+            Số tiền nhận được sau
+            <span id="confirm-period" class="period-text"></span> năm
+          </div>
+          <div class="bold-title m-b-20" id="total-rate">600.000 VND</div>
+          <div>
+            <div>
+              <div class="content-block">
+                <div class="label">Thời gian đầu tư</div>
+                <div class="text" id="confirm-money">
+                  <span id="confirm-period-2" class="period-text"></span> năm
+                </div>
+              </div>
+              <div class="content-block">
+                <div class="label">Lãi suất</div>
+                <div class="text"><span id="confirm-rate"></span>%/năm</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Tần suất ghép lãi</div>
+                <div id="confirm-periodRate" class="text">Hàng quý</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Số tiền ban đầu</div>
+                <div id="confirm-base-money" class="text">100.000.000 VND</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Đóng góp hàng tháng</div>
+                <div id="confirm-period-money" class="text">1.000.000 VND</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Chênh lệch so với số vốn ban đầu</div>
+                <div id="total-money" class="text">104,056,502 VND</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function calculateSavingMoney() {
+        var validateData = validate();
+        if (validateData) {
+          var baseMoney = convertStringToNumber(
+            document.getElementById("baseMoney").value
+          );
+
+          var periodMoney = convertStringToNumber(
+            document.getElementById("periodMoney").value
+          );
+
+          var periodRate = convertStringToNumber(
+            document.getElementById("periodRate").value
+          );
+          debugger;
+          var periodRateText = "";
+          switch (periodRate) {
+            case 1:
+              periodRateText = "Hàng năm";
+              break;
+            case 4:
+              periodRateText = "Hàng quý";
+              break;
+            case 12:
+              periodRateText = "Hàng tháng";
+              break;
+            case 365:
+              periodRateText = "Hàng ngày";
+              break;
+          }
+
+          var rate = convertStringToNumber(
+            document.getElementById("rate").value
+          );
+          var period = convertStringToNumber(
+            document.getElementById("period").value
+          );
+
+          var pow = periodRate * period;
+          var commonVariable = Math.pow(1 + rate / 100 / periodRate, pow);
+
+          var result =
+            baseMoney * commonVariable +
+            (periodMoney * (commonVariable - 1)) / (rate / 100 / periodRate);
+
+          document.getElementById("total-rate").innerText =
+            convertToCommaNumber(result.toString()) + " VND";
+
+          document.getElementById("confirm-rate").innerText = rate.toString();
+          document.getElementById("confirm-base-money").innerText =
+            convertToCommaNumber(baseMoney.toString()) + " VND";
+
+          document.getElementById("confirm-period-money").innerText =
+            convertToCommaNumber(periodMoney.toString()) + " VND";
+
+          document.getElementById("confirm-period").innerText =
+            convertToCommaNumber(period.toString());
+          document.getElementById("confirm-period-2").innerText =
+            convertToCommaNumber(period.toString());
+
+          document.getElementById("confirm-periodRate").innerText =
+            periodRateText;
+
+          document.getElementById("total-money").innerText =
+            convertToCommaNumber(result) + " VND";
+
+          return result;
+        }
+      }
+
+      function validate() {
+        var isValid = true;
+
+        var baseMoney = document.getElementById("baseMoney").value;
+        var periodMoney = document.getElementById("periodMoney").value;
+        var rate = document.getElementById("rate").value;
+        var period = document.getElementById("period").value;
+
+        if (baseMoney)
+          document.getElementById("baseMoney-error").classList.add("d-none");
+        else {
+          document.getElementById("baseMoney-error").classList.remove("d-none");
+          isValid = false;
+        }
+
+        if (periodMoney)
+          document.getElementById("periodMoney-error").classList.add("d-none");
+        else {
+          document
+            .getElementById("periodMoney-error")
+            .classList.remove("d-none");
+          isValid = false;
+        }
+
+        if (rate) document.getElementById("rate-error").classList.add("d-none");
+        else {
+          document.getElementById("rate-error").classList.remove("d-none");
+          isValid = false;
+        }
+
+        if (period)
+          document.getElementById("period-error").classList.add("d-none");
+        else {
+          document.getElementById("period-error").classList.remove("d-none");
+          isValid = false;
+        }
+
+        return isValid;
+      }
+      function convertToCommaNumber(value) {
+        value = value.toString();
+        var temp = value.toString().replace(/[^0-9]/g, "");
+        temp = parseInt(temp) ? parseInt(temp) : 0;
+        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+        temp = value.indexOf("-") != -1 ? "-" + temp : temp;
+
+        return temp;
+      }
+
+      function inputNumber(keyEvent) {
+        if (keyEvent.which < 48 || keyEvent.which > 57) {
+          keyEvent.preventDefault();
+        }
+      }
+
+      function numToCurrency(id) {
+        var value = document.getElementById(id).value;
+        if (value) {
+          var commaNumber = convertToCommaNumber(value);
+          document.getElementById(id).value = commaNumber;
+        }
+      }
+
+      function convertStringToNumber(str) {
+        return parseFloat(str.toString().replaceAll(",", ""));
+      }
+
+      function convertToCommaNumber(value) {
+        value = value.toString();
+        var temp = value.toString().replace(/[^0-9]/g, "");
+        temp = parseInt(temp) ? parseInt(temp) : 0;
+        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        temp = value.indexOf("-") != -1 ? "-" + temp : temp;
+
+        return temp;
+      }
+    </script>
+  </body>
+</html>
