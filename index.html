@@ -353,7 +353,9 @@
             Số tiền nhận được sau
             <span id="confirm-period" class="period-text">5</span> năm
           </div>
-          <div class="bold-title m-b-20" id="total-rate-final">600.000 VND</div>
+          <div class="bold-title m-b-20" id="total-money-final">
+            600.000 VND
+          </div>
           <div>
             <div>
               <div class="content-block">
@@ -436,9 +438,6 @@
           var result =
             baseMoney * commonVariable +
             (periodMoney * (commonVariable - 1)) / (ratePercent / periodRate);
-
-          document.getElementById("total-rate").innerText =
-            convertToCommaNumber(result.toString()) + " VND";
 
           document.getElementById("confirm-rate").innerText = rate.toString();
           document.getElementById("confirm-base-money").innerText =
