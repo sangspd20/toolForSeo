@@ -290,7 +290,7 @@
           </div>
 
           <div class="input-control">
-            <label class="label" for="">Số tiền gửi mỗi kỳ (VND)</label>
+            <label class="label" for="">Số tiền gửi mỗi tháng (VND)</label>
             <input
               id="periodMoney"
               type="text"
@@ -351,7 +351,7 @@
         <div class="right-block">
           <div class="green-txt">
             Số tiền nhận được sau
-            <span id="confirm-period" class="period-text"></span> năm
+            <span id="confirm-period" class="period-text">5</span> năm
           </div>
           <div class="bold-title m-b-20" id="total-rate">600.000 VND</div>
           <div>
@@ -359,12 +359,12 @@
               <div class="content-block">
                 <div class="label">Thời gian đầu tư</div>
                 <div class="text" id="confirm-money">
-                  <span id="confirm-period-2" class="period-text"></span> năm
+                  <span id="confirm-period-2" class="period-text">5</span> năm
                 </div>
               </div>
               <div class="content-block">
                 <div class="label">Lãi suất</div>
-                <div class="text"><span id="confirm-rate"></span>%/năm</div>
+                <div class="text"><span id="confirm-rate">6</span>%/năm</div>
               </div>
               <div class="content-block">
                 <div class="label">Tần suất ghép lãi</div>
@@ -426,13 +426,16 @@
           var period = convertStringToNumber(
             document.getElementById("period").value
           );
-
+          debugger;
           var pow = periodRate * period;
-          var commonVariable = Math.pow(1 + rate / 100 / periodRate, pow);
+          var ratePercent = rate / 100;
+          var commonVariable = parseFloat(
+            Math.pow(1 + ratePercent / periodRate, pow).toFixed(2)
+          );
 
           var result =
             baseMoney * commonVariable +
-            (periodMoney * (commonVariable - 1)) / (rate / 100 / periodRate);
+            (periodMoney * (commonVariable - 1)) / (ratePercent / periodRate);
 
           document.getElementById("total-rate").innerText =
             convertToCommaNumber(result.toString()) + " VND";
