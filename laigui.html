@@ -9,7 +9,7 @@
     <style>
       #saving-money {
         margin: 10px;
-        padding: 40px;
+        padding: 10px;
         width: 100%;
         border-radius: 20px;
         background: #fff;
@@ -38,13 +38,13 @@
 
       #saving-money .wrapper-inner {
         display: flex;
-        gap: 28px;
+        gap: 15px;
       }
 
       #saving-money .left-block {
         display: flex;
         width: 35%;
-        padding: 32px 24px;
+        padding: 10px;
         flex-direction: column;
         align-items: flex-start;
         gap: 24px;
@@ -58,7 +58,7 @@
         flex-shrink: 0;
         border-radius: 16px;
         background: #fffbf1;
-        padding: 32px 24px;
+        padding: 10px;
       }
 
       #saving-money .input-control {
@@ -69,7 +69,7 @@
 
       #saving-money .input-control input {
         display: flex;
-        padding: 12px;
+        padding: 6px;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -129,7 +129,7 @@
 
       #saving-money .content-block {
         display: flex;
-        padding: 16px 12px;
+        padding: 8px;
         gap: 4px;
         flex-wrap: wrap;
         border-radius: 10px;
@@ -157,11 +157,21 @@
       }
 
       #saving-money .error-text {
-        display: none;
         margin-top: 5px;
         font-size: 13px;
         color: red;
         font-style: italic;
+      }
+
+      #saving-money .button-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+
+      #saving-money .d-none {
+        display: none;
       }
 
       @media screen and (max-width: 768px) {
@@ -205,7 +215,7 @@
         }
 
         #saving-money .content-block {
-          padding: 12px;
+          padding: 8px;
         }
 
         #saving-money .content-block .label,
@@ -214,30 +224,56 @@
         }
       }
     </style>
-
-    <div class="wrapper-content" id="saving-money">
+    <div id="saving-money"></div>
+    <!-- <div class="wrapper-content" id="saving-money">
       <div class="head-title">Công cụ tính tiền lãi gửi</div>
       <div class="wrapper-inner">
         <div class="left-block">
           <div class="input-control">
             <label class="label" for="">Số tiền gửi</label>
-            <input id="money" type="number" placeholder="20,000,000" />
-            <div class="error-text money-error">Vui lòng nhập số tiền gửi</div>
+            <input
+              id="money"
+              type="text"
+              placeholder="20,000,000"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('money')"
+            />
+            <div id="money-error" class="error-text money-error d-none">
+              Vui lòng nhập số tiền gửi
+            </div>
           </div>
           <div class="input-control">
             <label class="label" for="">Lãi suất (%/năm)</label>
-            <input id="rate" type="number" placeholder="12" />
-            <div class="error-text rate-error">Vui lòng nhập lãi suất</div>
+            <input
+              id="rate"
+              type="text"
+              placeholder="12"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('rate')"
+            />
+            <div id="rate-error" class="error-text rate-error d-none">
+              Vui lòng nhập lãi suất
+            </div>
           </div>
           <div class="input-control">
             <label class="label" for="">Kỳ hạn(tháng)</label>
-            <input id="period" type="number" placeholder="12" />
-            <div class="error-text period-error">Vui lòng nhập kỳ hạn</div>
+            <input
+              id="period"
+              type="text"
+              placeholder="12"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('period')"
+            />
+            <div id="period-error" class="error-text period-error d-none">
+              Vui lòng nhập kỳ hạn
+            </div>
           </div>
-          <button class="green-button" onclick="calculateSavingMoney()">
-            <table></table>
-            Tính lãi suất
-          </button>
+          <div class="button-wrapper">
+            <button class="green-button" onclick="calculateSavingMoney()">
+              <table></table>
+              Tính lãi suất
+            </button>
+          </div>
         </div>
         <div class="right-block">
           <div class="green-txt">Tổng tiền lãi cuối kỳ</div>
@@ -263,47 +299,217 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
     <script>
+      jQuery(document).ready(function ($) {
+        $('#saving-money').html(laiguiHtml());
+
+        $('.green-button').click(function () {
+          calculateSavingMoney();
+        });
+
+        $('#money').keypress(function (e) {
+          inputNumber(e);
+        });
+
+        $('#money').keyup(function (e) {
+          numToCurrency('money');
+        });
+
+        $('#rate').keypress(function (e) {
+          inputNumber(e);
+        });
+
+        $('#rate').keyup(function (e) {
+          numToCurrency('rate');
+        });
+        $('#period').keypress(function (e) {
+          inputNumber(e);
+        });
+
+        $('#period').keyup(function (e) {
+          numToCurrency('period');
+        });
+      });
+
+      function laiguiHtml() {
+        return `    
+      <div class="head-title">Công cụ tính tiền lãi gửi</div>
+      <div class="wrapper-inner">
+        <div class="left-block">
+          <div class="input-control">
+            <label class="label" for="">Số tiền gửi</label>
+            <input
+              id="money"
+              type="text"
+              placeholder="20,000,000"
+              onkeypress="inputNumber(event)"
+            />
+            <div id="money-error" class="error-text money-error d-none">
+              Vui lòng nhập số tiền gửi
+            </div>
+          </div>
+          <div class="input-control">
+            <label class="label" for="">Lãi suất (%/năm)</label>
+            <input
+              id="rate"
+              type="text"
+              placeholder="12"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('rate')"
+            />
+            <div id="rate-error" class="error-text rate-error d-none">
+              Vui lòng nhập lãi suất
+            </div>
+          </div>
+          <div class="input-control">
+            <label class="label" for="">Kỳ hạn(tháng)</label>
+            <input
+              id="period"
+              type="text"
+              placeholder="12"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('period')"
+            />
+            <div id="period-error" class="error-text period-error d-none">
+              Vui lòng nhập kỳ hạn
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <button class="green-button" onclick="calculateSavingMoney()">
+              <table></table>
+              Tính lãi suất
+            </button>
+          </div>
+        </div>
+        <div class="right-block">
+          <div class="green-txt">Tổng tiền lãi cuối kỳ</div>
+          <div class="bold-title m-b-20" id="total-rate">600.000 VND</div>
+          <div>
+            <div class="green-txt m-b-10">
+              Lãi suất (<span id="confirm-rate">6</span>%/Năm)
+            </div>
+            <div>
+              <div class="content-block">
+                <div class="label">Số tiền gửi</div>
+                <div class="text" id="confirm-money">10.000.000 VND</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Kỳ hạn (tháng)</div>
+                <div class="text" id="confirm-period">12</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Số tiền nhận được</div>
+                <div id="total-money" class="text">10.600.000 VND</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+`;
+      }
       function calculateSavingMoney() {
-        validate();
+        var check = validate();
+        if (check) {
+          var money = convertStringToNumber(
+            document.getElementById('money').value
+          );
 
-        var money = Number(document.getElementById("money").value);
-        var rate = Number(document.getElementById("rate").value);
-        var period = Number(document.getElementById("period").value);
-        var result = money * (rate / 100) * (period / 12);
+          var rate = convertStringToNumber(
+            document.getElementById('rate').value
+          );
 
-        document.getElementById("total-rate").innerText =
-          convertToCommaNumber(result.toString()) + " VND";
+          var period = convertStringToNumber(
+            document.getElementById('period').value
+          );
 
-        document.getElementById("confirm-rate").innerText = rate.toString();
-        document.getElementById("confirm-money").innerText =
-          convertToCommaNumber(money.toString()) + " VND";
-        document.getElementById("confirm-period").innerText = period.toString();
+          var result = money * (rate / 100) * (period / 12);
 
-        document.getElementById("total-money").innerText =
-          convertToCommaNumber(result + money) + " VND";
+          document.getElementById('total-rate').innerText =
+            convertNumToCommaNumber(result.toString()) + ' VND';
 
-        return result;
+          document.getElementById('confirm-rate').innerText = rate.toString();
+          document.getElementById('confirm-money').innerText =
+            convertNumToCommaNumber(money.toString()) + ' VND';
+          document.getElementById('confirm-period').innerText =
+            period.toString();
+
+          document.getElementById('total-money').innerText =
+            convertNumToCommaNumber(result + money) + ' VND';
+
+          return result;
+        }
       }
 
       function validate() {
         var isValid = true;
 
-        var money = document.getElementById("money").value;
-        var rate = document.getElementById("rate").value;
-        var period = document.getElementById("period").value;
+        var money = document.getElementById('money').value;
+        var rate = document.getElementById('rate').value;
+        var period = document.getElementById('period').value;
+
+        if (money)
+          document.getElementById('money-error').classList.add('d-none');
+        else {
+          document.getElementById('money-error').classList.remove('d-none');
+          isValid = false;
+        }
+
+        if (rate) document.getElementById('rate-error').classList.add('d-none');
+        else {
+          document.getElementById('rate-error').classList.remove('d-none');
+          isValid = false;
+        }
+
+        if (period)
+          document.getElementById('period-error').classList.add('d-none');
+        else {
+          document.getElementById('period-error').classList.remove('d-none');
+          isValid = false;
+        }
+
+        return isValid;
       }
+
+      function inputNumber(keyEvent) {
+        if (keyEvent.which < 48 || keyEvent.which > 57) {
+          keyEvent.preventDefault();
+        }
+      }
+
+      function numToCurrency(id) {
+        debugger;
+        var value = document.getElementById(id).value;
+        if (value) {
+          var commaNumber = convertToCommaNumber(value);
+          document.getElementById(id).value = commaNumber;
+        }
+      }
+
+      function convertStringToNumber(str) {
+        return parseFloat(str.toString().replaceAll(',', ''));
+      }
+
       function convertToCommaNumber(value) {
         value = value.toString();
-        var temp = value.toString().replace(/[^0-9]/g, "");
+        var temp = value.toString().replace(/[^0-9]/g, '');
         temp = parseInt(temp) ? parseInt(temp) : 0;
-        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-        temp = value.indexOf("-") != -1 ? "-" + temp : temp;
+        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        temp = value.indexOf('-') != -1 ? '-' + temp : temp;
 
         return temp;
+      }
+
+      function convertNumToCommaNumber(num) {
+        num = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return num;
       }
     </script>
   </body>
