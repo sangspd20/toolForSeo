@@ -433,26 +433,28 @@
           // P(1 + r/n)^(nt)
           var result = baseMoney * Math.pow(1 + ratePercent / periodRate, pow);
           result = parseFloat(Math.floor(result));
+
           document.getElementById("confirm-rate").innerText = rate.toString();
           document.getElementById("confirm-base-money").innerText =
-            convertToCommaNumber(baseMoney.toString()) + " VND";
+            convertToCommaNumberSplit(baseMoney.toString()) + " VND";
 
           // document.getElementById("confirm-period-money").innerText =
           //   convertToCommaNumber(periodMoney.toString()) + " VND";
 
           document.getElementById("confirm-period").innerText =
-            convertToCommaNumber(period.toString());
+            convertToCommaNumberSplit(period.toString());
           document.getElementById("confirm-period-2").innerText =
-            convertToCommaNumber(period.toString());
+            convertToCommaNumberSplit(period.toString());
 
           document.getElementById("confirm-periodRate").innerText =
             periodRateText;
 
+          debugger;
           document.getElementById("total-money").innerText =
-            convertToCommaNumber(result) + " VND";
+            convertToCommaNumberSplit(result) + " VND";
 
           document.getElementById("total-money-final").innerText =
-            convertToCommaNumber(result + baseMoney) + " VND";
+            convertToCommaNumberSplit(result + baseMoney) + " VND";
 
           return result;
         }
@@ -504,10 +506,10 @@
         }
       }
 
-      function numToCurrency(id) {
+      function numToCurrencyNew(id) {
         var value = document.getElementById(id).value;
         if (value) {
-          var commaNumber = convertToCommaNumber(value);
+          var commaNumber = convertToCommaNumberSplit(value);
           document.getElementById(id).value = commaNumber;
         }
       }
@@ -539,7 +541,7 @@
               type="text"
               placeholder="Nhập số tiền"
               onkeypress="inputNumber(event)"
-              onkeyup="numToCurrency('baseMoney')"
+              onkeyup="numToCurrencyNew('baseMoney')"
             />
             <div id="baseMoney-error" class="error-text d-none">
               Vui lòng nhập số tiền
@@ -554,7 +556,7 @@
                   type="text"
                   placeholder="Nhập thời gian gửi"
                   onkeypress="inputNumber(event)"
-                  onkeyup="numToCurrency('period')"
+                  onkeyup="numToCurrencyNew('period')"
                 />
                 <div id="period-error" class="error-text period-error d-none">
                   Vui lòng nhập thời gian gửi
@@ -567,7 +569,7 @@
                   type="text"
                   placeholder="Nhập lãi suất"
                   onkeypress="inputNumber(event)"
-                  onkeyup="numToCurrency('rate')"
+                  onkeyup="numToCurrencyNew('rate')"
                 />
                 <div id="rate-error" class="error-text d-none">
                   Vui lòng nhập lãi suất
@@ -628,6 +630,32 @@
       </div>
         `;
       }
+
+      function splitStringEveryNChars(str, n) {
+        str = str.toString().replace(/[^0-9]/g, "");
+
+        const result = [];
+        for (let i = str.length; i > 0; i -= n) {
+          result.push(str.substring(i, i - n));
+        }
+        return result.reverse();
+      }
+
+      function convertToCommaNumberSplit(str) {
+        var result = splitStringEveryNChars(str, 3);
+        result = result.join(",");
+        return result;
+      }
+
+      jQuery(document).ready(function ($) {
+        $("#baseMoney").keypress(function (e) {
+          inputNumber(e);
+        });
+
+        $("#baseMoney").keyup(function (e) {
+          numToCurrencyNew("baseMoney");
+        });
+      });
     </script>
   </body>
 </html>

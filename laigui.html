@@ -310,8 +310,6 @@
       document.getElementById("saving-money").innerHTML = laiguiHtml();
 
       jQuery(document).ready(function ($) {
-        // $("#saving-money").html(laiguiHtml());
-
         $(".green-button").click(function () {
           calculateSavingMoney();
         });
@@ -321,7 +319,7 @@
         });
 
         $("#money").keyup(function (e) {
-          numToCurrency("money");
+          numToCurrencyNew("money");
         });
 
         $("#rate").keypress(function (e) {
@@ -329,14 +327,14 @@
         });
 
         $("#rate").keyup(function (e) {
-          numToCurrency("rate");
+          numToCurrencyNew("rate");
         });
         $("#period").keypress(function (e) {
           inputNumber(e);
         });
 
         $("#period").keyup(function (e) {
-          numToCurrency("period");
+          numToCurrencyNew("period");
         });
       });
 
@@ -364,7 +362,7 @@
               type="text"
               placeholder="Nhập lãi suất"
               onkeypress="inputNumber(event)"
-              onkeyup="numToCurrency('rate')"
+              onkeyup="numToCurrencyNew('rate')"
             />
             <div id="rate-error" class="error-text rate-error d-none">
               Vui lòng nhập lãi suất
@@ -377,7 +375,7 @@
               type="text"
               placeholder="Nhập kỳ hạn"
               onkeypress="inputNumber(event)"
-              onkeyup="numToCurrency('period')"
+              onkeyup="numToCurrencyNew('period')"
             />
             <div id="period-error" class="error-text period-error d-none">
               Vui lòng nhập kỳ hạn
@@ -418,7 +416,7 @@
 `;
       }
       function calculateSavingMoney() {
-        var check = validate();
+        var check = validateSavingMoney();
         if (check) {
           var money = convertStringToNumber(
             document.getElementById("money").value
@@ -433,24 +431,24 @@
           );
 
           var result = money * (rate / 100) * (period / 12);
-
+          result = Math.floor(result);
           document.getElementById("total-rate").innerText =
-            convertNumToCommaNumber(result.toString()) + " VND";
+            convertToCommaNumberSplit(result.toString()) + " VND";
 
           document.getElementById("confirm-rate").innerText = rate.toString();
           document.getElementById("confirm-money").innerText =
-            convertNumToCommaNumber(money.toString()) + " VND";
+            convertToCommaNumberSplit(money.toString()) + " VND";
           document.getElementById("confirm-period").innerText =
             period.toString();
 
           document.getElementById("total-money").innerText =
-            convertNumToCommaNumber(result + money) + " VND";
+            convertToCommaNumberSplit(result + money) + " VND";
 
           return result;
         }
       }
 
-      function validate() {
+      function validateSavingMoney() {
         var isValid = true;
 
         var money = document.getElementById("money").value;
@@ -486,32 +484,32 @@
         }
       }
 
-      function numToCurrency(id) {
-        debugger;
+      function numToCurrencyNew(id) {
         var value = document.getElementById(id).value;
         if (value) {
-          var commaNumber = convertToCommaNumber(value);
+          var commaNumber = convertToCommaNumberSplit(value);
           document.getElementById(id).value = commaNumber;
         }
       }
 
+      function splitStringEveryNChars(str, n) {
+        str = str.toString().replace(/[^0-9]/g, "");
+
+        const result = [];
+        for (let i = str.length; i > 0; i -= n) {
+          result.push(str.substring(i, i - n));
+        }
+        return result.reverse();
+      }
+
+      function convertToCommaNumberSplit(str) {
+        var result = splitStringEveryNChars(str, 3);
+        result = result.join(",");
+        return result;
+      }
+
       function convertStringToNumber(str) {
         return parseFloat(str.toString().replaceAll(",", ""));
-      }
-
-      function convertToCommaNumber(value) {
-        value = value.toString();
-        var temp = value.toString().replace(/[^0-9]/g, "");
-        temp = parseInt(temp) ? parseInt(temp) : 0;
-        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        temp = value.indexOf("-") != -1 ? "-" + temp : temp;
-
-        return temp;
-      }
-
-      function convertNumToCommaNumber(num) {
-        num = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return num;
       }
     </script>
   </body>
