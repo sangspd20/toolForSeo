@@ -234,7 +234,7 @@
             <input
               id="money"
               type="text"
-              placeholder="20,000,000"
+              placeholder="Nhập số tiền gửi"
               onkeypress="inputNumber(event)"
               onkeyup="numToCurrency('money')"
             />
@@ -307,34 +307,36 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      jQuery(document).ready(function ($) {
-        $('#saving-money').html(laiguiHtml());
+      document.getElementById("saving-money").innerHTML = laiguiHtml();
 
-        $('.green-button').click(function () {
+      jQuery(document).ready(function ($) {
+        // $("#saving-money").html(laiguiHtml());
+
+        $(".green-button").click(function () {
           calculateSavingMoney();
         });
 
-        $('#money').keypress(function (e) {
+        $("#money").keypress(function (e) {
           inputNumber(e);
         });
 
-        $('#money').keyup(function (e) {
-          numToCurrency('money');
+        $("#money").keyup(function (e) {
+          numToCurrency("money");
         });
 
-        $('#rate').keypress(function (e) {
+        $("#rate").keypress(function (e) {
           inputNumber(e);
         });
 
-        $('#rate').keyup(function (e) {
-          numToCurrency('rate');
+        $("#rate").keyup(function (e) {
+          numToCurrency("rate");
         });
-        $('#period').keypress(function (e) {
+        $("#period").keypress(function (e) {
           inputNumber(e);
         });
 
-        $('#period').keyup(function (e) {
-          numToCurrency('period');
+        $("#period").keyup(function (e) {
+          numToCurrency("period");
         });
       });
 
@@ -348,7 +350,7 @@
             <input
               id="money"
               type="text"
-              placeholder="20,000,000"
+              placeholder="Nhập số tiền gửi"
               onkeypress="inputNumber(event)"
             />
             <div id="money-error" class="error-text money-error d-none">
@@ -360,7 +362,7 @@
             <input
               id="rate"
               type="text"
-              placeholder="12"
+              placeholder="Nhập lãi suất"
               onkeypress="inputNumber(event)"
               onkeyup="numToCurrency('rate')"
             />
@@ -373,7 +375,7 @@
             <input
               id="period"
               type="text"
-              placeholder="12"
+              placeholder="Nhập kỳ hạn"
               onkeypress="inputNumber(event)"
               onkeyup="numToCurrency('period')"
             />
@@ -390,23 +392,23 @@
         </div>
         <div class="right-block">
           <div class="green-txt">Tổng tiền lãi cuối kỳ</div>
-          <div class="bold-title m-b-20" id="total-rate">600.000 VND</div>
+          <div class="bold-title m-b-20" id="total-rate">0 VND</div>
           <div>
             <div class="green-txt m-b-10">
-              Lãi suất (<span id="confirm-rate">6</span>%/Năm)
+              Lãi suất (<span id="confirm-rate"></span>%/năm)
             </div>
             <div>
               <div class="content-block">
                 <div class="label">Số tiền gửi</div>
-                <div class="text" id="confirm-money">10.000.000 VND</div>
+                <div class="text" id="confirm-money">0 VND</div>
               </div>
               <div class="content-block">
                 <div class="label">Kỳ hạn (tháng)</div>
-                <div class="text" id="confirm-period">12</div>
+                <div class="text" id="confirm-period">0</div>
               </div>
               <div class="content-block">
                 <div class="label">Số tiền nhận được</div>
-                <div id="total-money" class="text">10.600.000 VND</div>
+                <div id="total-money" class="text">0 VND</div>
               </div>
             </div>
           </div>
@@ -419,30 +421,30 @@
         var check = validate();
         if (check) {
           var money = convertStringToNumber(
-            document.getElementById('money').value
+            document.getElementById("money").value
           );
 
           var rate = convertStringToNumber(
-            document.getElementById('rate').value
+            document.getElementById("rate").value
           );
 
           var period = convertStringToNumber(
-            document.getElementById('period').value
+            document.getElementById("period").value
           );
 
           var result = money * (rate / 100) * (period / 12);
 
-          document.getElementById('total-rate').innerText =
-            convertNumToCommaNumber(result.toString()) + ' VND';
+          document.getElementById("total-rate").innerText =
+            convertNumToCommaNumber(result.toString()) + " VND";
 
-          document.getElementById('confirm-rate').innerText = rate.toString();
-          document.getElementById('confirm-money').innerText =
-            convertNumToCommaNumber(money.toString()) + ' VND';
-          document.getElementById('confirm-period').innerText =
+          document.getElementById("confirm-rate").innerText = rate.toString();
+          document.getElementById("confirm-money").innerText =
+            convertNumToCommaNumber(money.toString()) + " VND";
+          document.getElementById("confirm-period").innerText =
             period.toString();
 
-          document.getElementById('total-money').innerText =
-            convertNumToCommaNumber(result + money) + ' VND';
+          document.getElementById("total-money").innerText =
+            convertNumToCommaNumber(result + money) + " VND";
 
           return result;
         }
@@ -451,27 +453,27 @@
       function validate() {
         var isValid = true;
 
-        var money = document.getElementById('money').value;
-        var rate = document.getElementById('rate').value;
-        var period = document.getElementById('period').value;
+        var money = document.getElementById("money").value;
+        var rate = document.getElementById("rate").value;
+        var period = document.getElementById("period").value;
 
         if (money)
-          document.getElementById('money-error').classList.add('d-none');
+          document.getElementById("money-error").classList.add("d-none");
         else {
-          document.getElementById('money-error').classList.remove('d-none');
+          document.getElementById("money-error").classList.remove("d-none");
           isValid = false;
         }
 
-        if (rate) document.getElementById('rate-error').classList.add('d-none');
+        if (rate) document.getElementById("rate-error").classList.add("d-none");
         else {
-          document.getElementById('rate-error').classList.remove('d-none');
+          document.getElementById("rate-error").classList.remove("d-none");
           isValid = false;
         }
 
         if (period)
-          document.getElementById('period-error').classList.add('d-none');
+          document.getElementById("period-error").classList.add("d-none");
         else {
-          document.getElementById('period-error').classList.remove('d-none');
+          document.getElementById("period-error").classList.remove("d-none");
           isValid = false;
         }
 
@@ -494,21 +496,21 @@
       }
 
       function convertStringToNumber(str) {
-        return parseFloat(str.toString().replaceAll(',', ''));
+        return parseFloat(str.toString().replaceAll(",", ""));
       }
 
       function convertToCommaNumber(value) {
         value = value.toString();
-        var temp = value.toString().replace(/[^0-9]/g, '');
+        var temp = value.toString().replace(/[^0-9]/g, "");
         temp = parseInt(temp) ? parseInt(temp) : 0;
-        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        temp = value.indexOf('-') != -1 ? '-' + temp : temp;
+        temp = temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        temp = value.indexOf("-") != -1 ? "-" + temp : temp;
 
         return temp;
       }
 
       function convertNumToCommaNumber(num) {
-        num = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        num = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return num;
       }
     </script>

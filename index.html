@@ -9,7 +9,7 @@
     <style>
       #double-rate-money {
         margin: 10px;
-        padding: 40px;
+        padding: 15px;
         width: 100%;
         border-radius: 20px;
         background: #fff;
@@ -38,13 +38,13 @@
 
       #double-rate-money .wrapper-inner {
         display: flex;
-        gap: 28px;
+        gap: 15px;
       }
 
       #double-rate-money .left-block {
         display: flex;
         width: 35%;
-        padding: 32px 24px;
+        padding: 15px;
         flex-direction: column;
         align-items: flex-start;
         gap: 24px;
@@ -58,7 +58,7 @@
         flex-shrink: 0;
         border-radius: 16px;
         background: #fffbf1;
-        padding: 32px 24px;
+        padding: 15px;
       }
 
       #double-rate-money .input-control {
@@ -158,7 +158,7 @@
 
       #double-rate-money .content-block {
         display: flex;
-        padding: 16px 12px;
+        padding: 10px;
         gap: 4px;
         flex-wrap: wrap;
         border-radius: 10px;
@@ -271,8 +271,8 @@
       }
     </style>
 
-    <div class="wrapper-content" id="double-rate-money">
-      <div class="head-title">Công Cụ Tính Lãi Suất Kép</div>
+    <div class="wrapper-content" id="double-rate-money"></div>
+    <!-- <div class="head-title">Công Cụ Tính Lãi Suất Kép</div>
       <div class="wrapper-inner">
         <div class="left-block">
           <div class="input-control">
@@ -343,7 +343,7 @@
             </select>
           </div>
 
-          <button class="green-button" onclick="calculateSavingMoney()">
+          <button class="green-button" onclick="calculateDoubleSavingMoney()">
             <table></table>
             Tính lãi kép
           </button>
@@ -388,24 +388,22 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <script>
-      function calculateSavingMoney() {
+      document.getElementById("double-rate-money").innerHTML = laikepHtml();
+
+      function calculateDoubleSavingMoney() {
         var validateData = validate();
         if (validateData) {
           var baseMoney = convertStringToNumber(
             document.getElementById("baseMoney").value
           );
 
-          var periodMoney = convertStringToNumber(
-            document.getElementById("periodMoney").value
-          );
-
           var periodRate = convertStringToNumber(
             document.getElementById("periodRate").value
           );
-          debugger;
+
           var periodRateText = "";
           switch (periodRate) {
             case 1:
@@ -431,20 +429,16 @@
 
           var pow = periodRate * period;
           var ratePercent = rate / 100;
-          var commonVariable = parseFloat(
-            Math.pow(1 + ratePercent / periodRate, pow).toFixed(2)
-          );
 
-          var result =
-            baseMoney * commonVariable +
-            (periodMoney * (commonVariable - 1)) / (ratePercent / periodRate);
-
+          // P(1 + r/n)^(nt)
+          var result = baseMoney * Math.pow(1 + ratePercent / periodRate, pow);
+          result = parseFloat(Math.floor(result));
           document.getElementById("confirm-rate").innerText = rate.toString();
           document.getElementById("confirm-base-money").innerText =
             convertToCommaNumber(baseMoney.toString()) + " VND";
 
-          document.getElementById("confirm-period-money").innerText =
-            convertToCommaNumber(periodMoney.toString()) + " VND";
+          // document.getElementById("confirm-period-money").innerText =
+          //   convertToCommaNumber(periodMoney.toString()) + " VND";
 
           document.getElementById("confirm-period").innerText =
             convertToCommaNumber(period.toString());
@@ -468,7 +462,6 @@
         var isValid = true;
 
         var baseMoney = document.getElementById("baseMoney").value;
-        var periodMoney = document.getElementById("periodMoney").value;
         var rate = document.getElementById("rate").value;
         var period = document.getElementById("period").value;
 
@@ -476,15 +469,6 @@
           document.getElementById("baseMoney-error").classList.add("d-none");
         else {
           document.getElementById("baseMoney-error").classList.remove("d-none");
-          isValid = false;
-        }
-
-        if (periodMoney)
-          document.getElementById("periodMoney-error").classList.add("d-none");
-        else {
-          document
-            .getElementById("periodMoney-error")
-            .classList.remove("d-none");
           isValid = false;
         }
 
@@ -541,6 +525,108 @@
         temp = value.indexOf("-") != -1 ? "-" + temp : temp;
 
         return temp;
+      }
+
+      function laikepHtml() {
+        return `
+          <div class="head-title">Công Cụ Tính Lãi Suất Kép</div>
+      <div class="wrapper-inner">
+        <div class="left-block">
+          <div class="input-control">
+            <label class="label" for="">Số tiền gốc ban đầu (VND)</label>
+            <input
+              id="baseMoney"
+              type="text"
+              placeholder="Nhập số tiền"
+              onkeypress="inputNumber(event)"
+              onkeyup="numToCurrency('baseMoney')"
+            />
+            <div id="baseMoney-error" class="error-text d-none">
+              Vui lòng nhập số tiền
+            </div>
+          </div>
+
+         
+        <div class="input-control">
+                <label class="label" for="">Thời gian gửi (năm)</label>
+                <input
+                  id="period"
+                  type="text"
+                  placeholder="Nhập thời gian gửi"
+                  onkeypress="inputNumber(event)"
+                  onkeyup="numToCurrency('period')"
+                />
+                <div id="period-error" class="error-text period-error d-none">
+                  Vui lòng nhập thời gian gửi
+                </div>
+              </div>
+               <div class="input-control">
+                <label class="label" for="">Lãi suất (%/ năm)</label>
+                <input
+                  id="rate"
+                  type="text"
+                  placeholder="Nhập lãi suất"
+                  onkeypress="inputNumber(event)"
+                  onkeyup="numToCurrency('rate')"
+                />
+                <div id="rate-error" class="error-text d-none">
+                  Vui lòng nhập lãi suất
+                </div>
+              </div>
+        
+          <div class="select-control">
+            <div class="label" for="">Định kỳ nhận lãi</div>
+            <select name="" id="periodRate">
+              <option value="1">Hàng năm</option>
+              <option value="4">Hàng quý</option>
+              <option value="12">Hàng tháng</option>
+              <option value="365">Hàng ngày</option>
+            </select>
+          </div>
+
+          <button class="green-button" onclick="calculateDoubleSavingMoney()">
+            <table></table>
+            Tính lãi kép
+          </button>
+        </div>
+        <div class="right-block">
+          <div class="green-txt">
+            Số tiền nhận được sau
+            <span id="confirm-period" class="period-text">0</span> năm
+          </div>
+          <div class="bold-title m-b-20" id="total-money-final">
+            0 VND
+          </div>
+          <div>
+            <div>
+              <div class="content-block">
+                <div class="label">Thời gian đầu tư</div>
+                <div class="text" id="confirm-money">
+                  <span id="confirm-period-2" class="period-text">0</span> năm
+                </div>
+              </div>
+              <div class="content-block">
+                <div class="label">Lãi suất</div>
+                <div class="text"><span id="confirm-rate"></span>%/năm</div>
+              </div>
+              <div class="content-block">
+                <div class="label">Tần suất ghép lãi</div>
+                <div id="confirm-periodRate" class="text"></div>
+              </div>
+              <div class="content-block">
+                <div class="label">Số tiền ban đầu</div>
+                <div id="confirm-base-money" class="text">0 VND</div>
+              </div>
+             
+              <div class="content-block">
+                <div class="label">Chênh lệch so với số vốn ban đầu</div>
+                <div id="total-money" class="text">0 VND</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        `;
       }
     </script>
   </body>
